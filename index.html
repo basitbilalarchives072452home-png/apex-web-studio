@@ -15,9 +15,6 @@
                         obsidian: '#01030d',
                         neonCyan: '#00f0ff',
                         neonPurple: '#9d00ff'
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -27,31 +24,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         .glass-panel {
-            background: rgba(3, 7, 18, 0.8);
+            background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 240, 255, 0.15);
+            border: 1px solid rgba(0, 240, 255, 0.2);
         }
         .glass-panel:hover {
-            border-color: rgba(0, 240, 255, 0.5);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+            border-color: rgba(0, 240, 255, 0.6);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
         }
-        /* Custom Glowing Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #01030d; }
-        ::-webkit-scrollbar-thumb { background: #00f0ff55; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
-        
-        /* Code Matrix Background Stream */
-        .code-stream {
-            font-family: 'Courier New', Courier, monospace;
-            color: rgba(0, 240, 255, 0.12);
+        /* Scrolling Code Background */
+        .code-col {
             position: absolute;
-            white-space: nowrap;
+            top: -100%;
+            font-family: monospace;
+            font-size: 13px;
+            color: rgba(0, 240, 255, 0.25);
+            line-height: 1.8;
             user-select: none;
             pointer-events: none;
-            font-size: 13px;
-            line-height: 1.6;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(200vh); }
         }
     </style>
 </head>
@@ -60,21 +55,43 @@
     <!-- 3D Cybernetic Canvas Container -->
     <div id="canvas-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
-    <!-- Coding / Software Development Background Streams -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-40" id="code-bg">
-        <div class="code-stream" style="top: 10%; left: 5%;">const apexEngine = new NextJSCore({ typescript: true, tailwind: true });</div>
-        <div class="code-stream" style="top: 25%; right: 8%;">import { useState, useEffect } from 'react'; async function deploy() { await v8.optimize(); }</div>
-        <div class="code-stream" style="top: 45%; left: 10%;">git commit -m "Architecting high-speed production builds" && vercel --prod</div>
-        <div class="code-stream" style="top: 65%; right: 12%;">interface ClientPayload { id: string; secureToken: boolean; latency: number; }</div>
-        <div class="code-stream" style="top: 85%; left: 8%;">function renderStudio() { return <Canvas3D wireframe={true} color="#00f0ff" />; }</div>
+    <!-- Live Software Engineering Code Streams Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" id="matrix-bg">
+        <div class="code-col" style="left: 5%; animation-duration: 12s;">
+            const apex = new NextJSApp({<br>
+            &nbsp;&nbsp;strictMode: true,<br>
+            &nbsp;&nbsp;framework: "React 18",<br>
+            &nbsp;&nbsp;styling: "Tailwind CSS"<br>
+            });<br>
+            async function buildClient() {<br>
+            &nbsp;&nbsp;await compiler.compile();<br>
+            }
+        </div>
+        <div class="code-col" style="left: 35%; animation-duration: 16s; animation-delay: 2s;">
+            interface AgencyMetrics {<br>
+            &nbsp;&nbsp;conversionRate: number;<br>
+            &nbsp;&nbsp;latency: "0.2ms";<br>
+            &nbsp;&nbsp;deployed: boolean;<br>
+            }<br>
+            const deploy = () => git.push();
+        </div>
+        <div class="code-col" style="left: 70%; animation-duration: 14s; animation-delay: 1s;">
+            import { ThreeFiber } from '@react-three/fiber';<br>
+            export default function Terminal() {<br>
+            &nbsp;&nbsp;return &lt;Canvas /&gt;;<br>
+            }<br>
+            // Apex Web Studio Production Core
+        </div>
+        <div class="code-col" style="left: 88%; animation-duration: 18s; animation-delay: 3s;">
+            git commit -m "Optimize UI components"<br>
+            vercel --prod --confirm<br>
+            // High-speed B2B pipeline active<br>
+            const founder = "Bilal Basit";
+        </div>
     </div>
 
-    <!-- Ambient Glowing Background Gradients -->
-    <div class="fixed top-0 left-1/4 w-96 h-96 bg-neonCyan/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-    <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-neonPurple/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-
     <!-- Navigation -->
-    <nav class="relative z-10 flex items-center justify-between px-6 py-6 md:px-16 border-b border-white/10 backdrop-blur-xl bg-obsidian/60 sticky top-0">
+    <nav class="relative z-10 flex items-center justify-between px-6 py-6 md:px-16 border-b border-white/10 backdrop-blur-xl bg-obsidian/80 sticky top-0">
         <div class="flex items-center space-x-3">
             <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-neonCyan to-blue-600 flex items-center justify-center font-black text-obsidian text-lg shadow-[0_0_20px_rgba(0,240,255,0.6)]">
                 A
@@ -85,7 +102,6 @@
         </div>
         <div class="hidden md:flex items-center space-x-8 text-xs tracking-widest uppercase text-slate-400 font-semibold">
             <a href="#services" class="hover:text-neonCyan transition">Capabilities</a>
-            <a href="#work" class="hover:text-neonCyan transition">Showcase</a>
             <a href="#contact" class="hover:text-neonCyan transition">Secure Link</a>
         </div>
         <a href="#contact" class="px-5 py-2.5 rounded-xl bg-neonCyan text-obsidian font-extrabold text-xs tracking-widest uppercase transition-all hover:bg-white hover:shadow-[0_0_30px_rgba(0,240,255,0.8)]">
@@ -95,7 +111,7 @@
 
     <!-- Hero Section -->
     <section class="relative z-10 flex flex-col items-center justify-center min-h-[85vh] text-center px-6 max-w-5xl mx-auto">
-        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-neonCyan/30 bg-neonCyan/5 text-neonCyan text-[10px] font-bold tracking-[0.2em] uppercase mb-8 backdrop-blur-md animate-pulse-slow">
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-neonCyan/30 bg-neonCyan/5 text-neonCyan text-[10px] font-bold tracking-[0.2em] uppercase mb-8 backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-neonCyan animate-ping"></span>
             <span>System Online // Global B2B Agency Partner</span>
         </div>
@@ -186,8 +202,6 @@
 
         <!-- Interactive Form Terminal -->
         <div id="client-form" class="glass-panel p-8 md:p-12 rounded-3xl shadow-2xl relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-neonCyan/5 rounded-full blur-3xl pointer-events-none"></div>
-            
             <h3 class="text-xl font-black text-white uppercase tracking-wider mb-8 text-center">Secure Transmission Terminal</h3>
             
             <form action="https://formsubmit.co/basitbilalarchives072452home@gmail.com" method="POST" class="space-y-6 max-w-2xl mx-auto">
@@ -219,9 +233,8 @@
         <p>© 2026 APEX WEB STUDIO // FOUNDER: BILAL BASIT. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- Three.js & Code Matrix Animation Script -->
+    <!-- Three.js Background Script -->
     <script>
-        // Three.js Cybernetic 3D Background Effect
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -236,7 +249,7 @@
             color: 0x00f0ff,
             wireframe: true,
             transparent: true,
-            opacity: 0.18
+            opacity: 0.2
         });
         const sphere = new THREE.Mesh(geometry, material);
         scene.add(sphere);
