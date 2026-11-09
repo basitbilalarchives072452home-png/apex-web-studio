@@ -18,13 +18,6 @@
                     },
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                    },
-                    keyframes: {
-                        glow: {
-                            '0%': { boxShadow: '0 0 15px rgba(0, 240, 255, 0.2)' },
-                            '100%': { boxShadow: '0 0 35px rgba(0, 240, 255, 0.6)' },
-                        }
                     }
                 }
             }
@@ -34,7 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         .glass-panel {
-            background: rgba(3, 7, 18, 0.75);
+            background: rgba(3, 7, 18, 0.8);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(0, 240, 255, 0.15);
@@ -48,12 +41,33 @@
         ::-webkit-scrollbar-track { background: #01030d; }
         ::-webkit-scrollbar-thumb { background: #00f0ff55; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+        
+        /* Code Matrix Background Stream */
+        .code-stream {
+            font-family: 'Courier New', Courier, monospace;
+            color: rgba(0, 240, 255, 0.12);
+            position: absolute;
+            white-space: nowrap;
+            user-select: none;
+            pointer-events: none;
+            font-size: 13px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body class="bg-obsidian text-slate-100 selection:bg-neonCyan selection:text-obsidian font-sans overflow-x-hidden">
 
     <!-- 3D Cybernetic Canvas Container -->
     <div id="canvas-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Coding / Software Development Background Streams -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-40" id="code-bg">
+        <div class="code-stream" style="top: 10%; left: 5%;">const apexEngine = new NextJSCore({ typescript: true, tailwind: true });</div>
+        <div class="code-stream" style="top: 25%; right: 8%;">import { useState, useEffect } from 'react'; async function deploy() { await v8.optimize(); }</div>
+        <div class="code-stream" style="top: 45%; left: 10%;">git commit -m "Architecting high-speed production builds" && vercel --prod</div>
+        <div class="code-stream" style="top: 65%; right: 12%;">interface ClientPayload { id: string; secureToken: boolean; latency: number; }</div>
+        <div class="code-stream" style="top: 85%; left: 8%;">function renderStudio() { return <Canvas3D wireframe={true} color="#00f0ff" />; }</div>
+    </div>
 
     <!-- Ambient Glowing Background Gradients -->
     <div class="fixed top-0 left-1/4 w-96 h-96 bg-neonCyan/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
@@ -98,7 +112,7 @@
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-5 w-full">
-            <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-neonCyan to-blue-600 text-obsidian font-black text-xs tracking-widest uppercase hover:opacity-90 transition shadow-[0_0_35px_rgba(0,240,255,0.5)]">
+            <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-neonCyan to-blue-600 text-obsidian font-black text-xs tracking-widest uppercase hover:opacity-95 transition shadow-[0_0_35px_rgba(0,240,255,0.5)]">
                 Establish Connection
             </a>
             <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/10 bg-white/5 text-white font-bold text-xs tracking-widest uppercase hover:bg-white/10 hover:border-neonCyan/50 transition backdrop-blur-md">
@@ -205,8 +219,9 @@
         <p>© 2026 APEX WEB STUDIO // FOUNDER: BILAL BASIT. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- Three.js Cybernetic 3D Background Effect -->
+    <!-- Three.js & Code Matrix Animation Script -->
     <script>
+        // Three.js Cybernetic 3D Background Effect
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -216,7 +231,6 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // Cybernetic Wireframe Icosahedron
         const geometry = new THREE.IcosahedronGeometry(3.5, 2);
         const material = new THREE.MeshBasicMaterial({
             color: 0x00f0ff,
@@ -226,23 +240,6 @@
         });
         const sphere = new THREE.Mesh(geometry, material);
         scene.add(sphere);
-
-        // Particle Dust Field
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 400;
-        const posArray = new Float32Array(particlesCount * 3);
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 15;
-        }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.015,
-            color: 0x00f0ff,
-            transparent: true,
-            opacity: 0.5
-        });
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
 
         camera.position.z = 5;
 
@@ -256,7 +253,6 @@
             requestAnimationFrame(animate);
             sphere.rotation.x += 0.002 + (mouseY * 0.1);
             sphere.rotation.y += 0.003 + (mouseX * 0.1);
-            particlesMesh.rotation.y -= 0.001;
             renderer.render(scene, camera);
         }
         animate();
