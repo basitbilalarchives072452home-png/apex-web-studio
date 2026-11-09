@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Web Studio | Futuristic Digital Engineering</title>
+    <title>Apex Web Studio | Elite Digital Architecture</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,7 +12,19 @@
             theme: {
                 extend: {
                     colors: {
-                        slate: { 950: '#020617' }
+                        obsidian: '#01030d',
+                        neonCyan: '#00f0ff',
+                        neonPurple: '#9d00ff'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(0, 240, 255, 0.2)' },
+                            '100%': { boxShadow: '0 0 35px rgba(0, 240, 255, 0.6)' },
+                        }
                     }
                 }
             }
@@ -20,136 +32,168 @@
     </script>
     <!-- Three.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        .glass-panel {
+            background: rgba(3, 7, 18, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 240, 255, 0.5);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+        }
+        /* Custom Glowing Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #01030d; }
+        ::-webkit-scrollbar-thumb { background: #00f0ff55; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-black font-sans overflow-x-hidden">
+<body class="bg-obsidian text-slate-100 selection:bg-neonCyan selection:text-obsidian font-sans overflow-x-hidden">
 
-    <!-- 3D Canvas Background Container -->
+    <!-- 3D Cybernetic Canvas Container -->
     <div id="canvas-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
+    <!-- Ambient Glowing Background Gradients -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-neonCyan/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-neonPurple/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
     <!-- Navigation -->
-    <nav class="relative z-10 flex items-center justify-between px-6 py-6 md:px-16 border-b border-slate-800/60 backdrop-blur-md">
-        <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 rounded bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-black text-lg shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+    <nav class="relative z-10 flex items-center justify-between px-6 py-6 md:px-16 border-b border-white/10 backdrop-blur-xl bg-obsidian/60 sticky top-0">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-neonCyan to-blue-600 flex items-center justify-center font-black text-obsidian text-lg shadow-[0_0_20px_rgba(0,240,255,0.6)]">
                 A
             </div>
-            <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-                APEX WEB STUDIO
+            <span class="text-xl font-black tracking-widest bg-gradient-to-r from-white via-slate-200 to-neonCyan bg-clip-text text-transparent">
+                APEX // STUDIO
             </span>
         </div>
-        <div class="hidden md:flex items-center space-x-8 text-sm text-slate-300 font-medium">
-            <a href="#services" class="hover:text-cyan-400 transition">Capabilities</a>
-            <a href="#contact" class="hover:text-cyan-400 transition">Contact Options</a>
+        <div class="hidden md:flex items-center space-x-8 text-xs tracking-widest uppercase text-slate-400 font-semibold">
+            <a href="#services" class="hover:text-neonCyan transition">Capabilities</a>
+            <a href="#work" class="hover:text-neonCyan transition">Showcase</a>
+            <a href="#contact" class="hover:text-neonCyan transition">Secure Link</a>
         </div>
-        <a href="#contact" class="px-5 py-2.5 rounded-full bg-cyan-500 text-slate-950 font-bold text-sm tracking-wide transition-all hover:bg-cyan-400 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
-            Get in Touch
+        <a href="#contact" class="px-5 py-2.5 rounded-xl bg-neonCyan text-obsidian font-extrabold text-xs tracking-widest uppercase transition-all hover:bg-white hover:shadow-[0_0_30px_rgba(0,240,255,0.8)]">
+            Initialize
         </a>
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative z-10 flex flex-col items-center justify-center min-h-[75vh] text-center px-6 max-w-5xl mx-auto">
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
-            <span>Next-Gen Frontend Engineering</span>
+    <section class="relative z-10 flex flex-col items-center justify-center min-h-[85vh] text-center px-6 max-w-5xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-neonCyan/30 bg-neonCyan/5 text-neonCyan text-[10px] font-bold tracking-[0.2em] uppercase mb-8 backdrop-blur-md animate-pulse-slow">
+            <span class="w-2 h-2 rounded-full bg-neonCyan animate-ping"></span>
+            <span>System Online // Global B2B Agency Partner</span>
         </div>
         
-        <h1 class="text-4xl md:text-7xl font-black tracking-tight leading-tight mb-6 text-white">
-            Architecting High-Speed <br>
-            <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
-                Digital Experiences
+        <h1 class="text-4xl md:text-7xl font-black tracking-tight leading-none mb-6 text-white uppercase">
+            Architecting <br>
+            <span class="bg-gradient-to-r from-neonCyan via-blue-500 to-neonPurple bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(0,240,255,0.3)]">
+                Cybernetic Realities
             </span>
         </h1>
 
-        <p class="text-base md:text-xl text-slate-400 max-w-2xl mb-10 leading-relaxed">
-            Founded by Bilal Basit. We engineer high-performance web apps, React/Next.js interfaces, and immersive digital platforms for global agencies.
+        <p class="text-sm md:text-lg text-slate-400 max-w-2xl mb-12 leading-relaxed font-light">
+            Founded by Bilal Basit. We engineer high-performance React/Next.js systems, immersive 3D interfaces, and lightning-fast digital assets for elite global agencies.
         </p>
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
-            <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm tracking-wide hover:opacity-90 transition shadow-[0_0_30px_rgba(6,182,212,0.4)]">
-                Choose Contact Method
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-5 w-full">
+            <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-neonCyan to-blue-600 text-obsidian font-black text-xs tracking-widest uppercase hover:opacity-90 transition shadow-[0_0_35px_rgba(0,240,255,0.5)]">
+                Establish Connection
+            </a>
+            <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/10 bg-white/5 text-white font-bold text-xs tracking-widest uppercase hover:bg-white/10 hover:border-neonCyan/50 transition backdrop-blur-md">
+                Explore Core Stack
             </a>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="relative z-10 py-24 px-6 max-w-6xl mx-auto">
+    <!-- Capabilities Section -->
+    <section id="services" class="relative z-10 py-28 px-6 max-w-6xl mx-auto">
         <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Core Capabilities</h2>
-            <p class="text-slate-400 text-sm md:text-base">Built for speed, scale, and uncompromising visual standard.</p>
+            <h2 class="text-xs uppercase tracking-[0.3em] text-neonCyan font-bold mb-3">Tactical Specs</h2>
+            <p class="text-3xl md:text-4xl font-black text-white uppercase tracking-wider">Engineered For Absolute Dominance</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-8 rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-md hover:border-cyan-500/50 transition">
-                <h3 class="text-xl font-bold text-white mb-3">React & Next.js Core</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Server-side rendering, lightning-fast App Router execution, and ultra-smooth dynamic routing.</p>
+            <div class="glass-panel p-8 rounded-3xl transition duration-300 group">
+                <div class="w-12 h-12 rounded-2xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan font-bold mb-6 group-hover:scale-110 transition">
+                    01
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 tracking-wide">Next.js & React Core</h3>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">Server-side rendering, optimized app routers, and ultra-fluid state architectures built for scale.</p>
             </div>
-            <div class="p-8 rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-md hover:border-cyan-500/50 transition">
-                <h3 class="text-xl font-bold text-white mb-3">TypeScript Architecture</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Type-safe development pipelines guaranteeing zero bugs, robust scalability, and enterprise grade code.</p>
+
+            <div class="glass-panel p-8 rounded-3xl transition duration-300 group">
+                <div class="w-12 h-12 rounded-2xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan font-bold mb-6 group-hover:scale-110 transition">
+                    02
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 tracking-wide">TypeScript Precision</h3>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">Type-safe pipelines ensuring zero runtime failures, strict modularity, and pristine codebases.</p>
             </div>
-            <div class="p-8 rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-md hover:border-cyan-500/50 transition">
-                <h3 class="text-xl font-bold text-white mb-3">Tailwind UI & Motion</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Custom modern layouts, responsive mobile structures, and immersive design micro-interactions.</p>
+
+            <div class="glass-panel p-8 rounded-3xl transition duration-300 group">
+                <div class="w-12 h-12 rounded-2xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan font-bold mb-6 group-hover:scale-110 transition">
+                    03
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 tracking-wide">Tailwind & 3D Motion</h3>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">Immersive visual layers, micro-interactions, and futuristic dark-mode aesthetics that captivate users.</p>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section with 3 Options -->
-    <section id="contact" class="relative z-10 py-24 px-6 max-w-5xl mx-auto border-t border-slate-800/60">
+    <!-- Secure Contact Section -->
+    <section id="contact" class="relative z-10 py-28 px-6 max-w-4xl mx-auto border-t border-white/10">
         <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-5xl font-black text-white mb-4">Connect With Apex Web Studio</h2>
-            <p class="text-slate-400 text-sm md:text-base">Choose your preferred method to start a project or get in touch.</p>
+            <h2 class="text-xs uppercase tracking-[0.3em] text-neonCyan font-bold mb-3">Transmission Hub</h2>
+            <p class="text-3xl md:text-5xl font-black text-white uppercase tracking-wider">Initialize Direct Contact</p>
+            <p class="text-slate-400 text-sm mt-3">Select your preferred communication vector below.</p>
         </div>
 
-        <!-- 3 Quick Action Cards -->
+        <!-- 3 Action Vector Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            <!-- Option 1: Form Jump -->
-            <a href="#client-form" class="p-6 rounded-2xl border border-cyan-500/40 bg-cyan-950/20 backdrop-blur-md hover:bg-cyan-950/40 transition text-center group">
-                <div class="w-12 h-12 mx-auto rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 transition">
-                    📝
-                </div>
-                <h3 class="text-lg font-bold text-white mb-2">Fill Project Form</h3>
-                <p class="text-slate-400 text-xs">Send your project requirements directly through our interactive form.</p>
+            <a href="#client-form" class="glass-panel p-6 rounded-2xl text-center group hover:border-neonCyan transition">
+                <div class="text-2xl mb-3">📝</div>
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-1">Project Brief</h3>
+                <p class="text-slate-400 text-xs">Fill our secure requirement form.</p>
             </a>
 
-            <!-- Option 2: Direct Email -->
-            <a href="mailto:basitbilalarchives072452home@gmail.com" class="p-6 rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-md hover:border-cyan-500/50 transition text-center group">
-                <div class="w-12 h-12 mx-auto rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 transition">
-                    ✉️
-                </div>
-                <h3 class="text-lg font-bold text-white mb-2">Send an Email</h3>
-                <p class="text-slate-400 text-xs">Open your mail client and message basitbilalarchives072452home@gmail.com</p>
+            <a href="mailto:basitbilalarchives072452home@gmail.com" class="glass-panel p-6 rounded-2xl text-center group hover:border-neonCyan transition">
+                <div class="text-2xl mb-3">✉️</div>
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-1">Direct Email</h3>
+                <p class="text-slate-400 text-xs">basitbilalarchives072452home@gmail.com</p>
             </a>
 
-            <!-- Option 3: WhatsApp / Phone -->
-            <a href="https://wa.me/923326471777" target="_blank" class="p-6 rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-md hover:border-cyan-500/50 transition text-center group">
-                <div class="w-12 h-12 mx-auto rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 transition">
-                    💬
-                </div>
-                <h3 class="text-lg font-bold text-white mb-2">WhatsApp / Call</h3>
-                <p class="text-slate-400 text-xs">Instant chat or call us at +92 332 6471777</p>
+            <a href="https://wa.me/923326471777" target="_blank" class="glass-panel p-6 rounded-2xl text-center group hover:border-neonCyan transition">
+                <div class="text-2xl mb-3">💬</div>
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-1">WhatsApp Secure</h3>
+                <p class="text-slate-400 text-xs">+92 332 6471777</p>
             </a>
         </div>
 
-        <!-- Interactive Contact Form Box -->
-        <div id="client-form" class="p-8 md:p-12 rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950/90 backdrop-blur-xl shadow-2xl">
-            <h3 class="text-2xl font-bold text-white mb-6 text-center">Project Inquiry Form</h3>
+        <!-- Interactive Form Terminal -->
+        <div id="client-form" class="glass-panel p-8 md:p-12 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-neonCyan/5 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <h3 class="text-xl font-black text-white uppercase tracking-wider mb-8 text-center">Secure Transmission Terminal</h3>
+            
             <form action="https://formsubmit.co/basitbilalarchives072452home@gmail.com" method="POST" class="space-y-6 max-w-2xl mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-semibold">Your Name</label>
-                        <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-cyan-500 focus:outline-none transition text-sm" placeholder="John Doe">
+                        <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-bold">Designation / Name</label>
+                        <input type="text" name="name" required class="w-full px-4 py-3.5 rounded-xl bg-obsidian/90 border border-white/10 text-white focus:border-neonCyan focus:outline-none transition text-sm font-medium" placeholder="John Doe">
                     </div>
                     <div>
-                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-semibold">Your Email</label>
-                        <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-cyan-500 focus:outline-none transition text-sm" placeholder="john@agency.com">
+                        <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-bold">Secure Email</label>
+                        <input type="email" name="email" required class="w-full px-4 py-3.5 rounded-xl bg-obsidian/90 border border-white/10 text-white focus:border-neonCyan focus:outline-none transition text-sm font-medium" placeholder="john@agency.com">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-semibold">Project Details / Message</label>
-                    <textarea name="message" rows="4" required class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-cyan-500 focus:outline-none transition text-sm" placeholder="Tell us about your project requirements..."></textarea>
+                    <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-bold">Project Architecture / Specs</label>
+                    <textarea name="message" rows="4" required class="w-full px-4 py-3.5 rounded-xl bg-obsidian/90 border border-white/10 text-white focus:border-neonCyan focus:outline-none transition text-sm font-medium resize-none" placeholder="Outline your requirements..."></textarea>
                 </div>
-                <div class="text-center">
-                    <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm tracking-wide hover:opacity-90 transition shadow-[0_0_30px_rgba(6,182,212,0.4)] cursor-pointer w-full md:w-auto">
-                        Send Message to Apex Web Studio
+                <div class="text-center pt-2">
+                    <button type="submit" class="w-full md:w-auto px-10 py-4 rounded-xl bg-gradient-to-r from-neonCyan to-blue-600 text-obsidian font-black text-xs tracking-widest uppercase hover:opacity-95 transition shadow-[0_0_35px_rgba(0,240,255,0.5)] cursor-pointer">
+                        Transmit Data Package
                     </button>
                 </div>
             </form>
@@ -157,11 +201,11 @@
     </section>
 
     <!-- Footer -->
-    <footer class="relative z-10 py-8 px-6 text-center border-t border-slate-900 text-slate-500 text-xs">
-        <p>© 2026 Apex Web Studio. Founder: Bilal Basit. All rights reserved.</p>
+    <footer class="relative z-10 py-10 px-6 text-center border-t border-white/10 text-slate-500 text-xs tracking-wider">
+        <p>© 2026 APEX WEB STUDIO // FOUNDER: BILAL BASIT. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- Three.js 3D Animation Script -->
+    <!-- Three.js Cybernetic 3D Background Effect -->
     <script>
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
@@ -172,28 +216,47 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        const geometry = new THREE.IcosahedronGeometry(3, 2);
+        // Cybernetic Wireframe Icosahedron
+        const geometry = new THREE.IcosahedronGeometry(3.5, 2);
         const material = new THREE.MeshBasicMaterial({
-            color: 0x06b6d4,
+            color: 0x00f0ff,
             wireframe: true,
             transparent: true,
-            opacity: 0.15
+            opacity: 0.18
         });
         const sphere = new THREE.Mesh(geometry, material);
         scene.add(sphere);
+
+        // Particle Dust Field
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 400;
+        const posArray = new Float32Array(particlesCount * 3);
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 15;
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.015,
+            color: 0x00f0ff,
+            transparent: true,
+            opacity: 0.5
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
 
         camera.position.z = 5;
 
         let mouseX = 0, mouseY = 0;
         window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX / window.innerWidth - 0.5;
-            mouseY = e.clientY / window.innerHeight - 0.5;
+            mouseX = (e.clientX / window.innerWidth) - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
         });
 
         function animate() {
             requestAnimationFrame(animate);
-            sphere.rotation.x += 0.002 + mouseY * 0.05;
-            sphere.rotation.y += 0.003 + mouseX * 0.05;
+            sphere.rotation.x += 0.002 + (mouseY * 0.1);
+            sphere.rotation.y += 0.003 + (mouseX * 0.1);
+            particlesMesh.rotation.y -= 0.001;
             renderer.render(scene, camera);
         }
         animate();
